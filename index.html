@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>jacyfox-06 :: cyberdeck</title>
+<meta name="description" content="jacyfox-06 — developer portfolio">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#05070a;
+    --bg-1:#0b0f16;
+    --panel:#0e1420;
+    --line:rgba(120,255,214,0.18);
+    --cyan:#4dfdd6;
+    --magenta:#ff3b8d;
+    --text:#c8d3d9;
+    --text-dim:#5c6b73;
+    --glow-cyan:0 0 8px rgba(77,253,214,.55), 0 0 24px rgba(77,253,214,.15);
+    --glow-magenta:0 0 8px rgba(255,59,141,.55), 0 0 24px rgba(255,59,141,.15);
+    --font-display:'Orbitron', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg-0);
+    color:var(--text);
+    font-family:var(--font-mono);
+    line-height:1.6;
+    overflow-x:hidden;
+    position:relative;
+  }
+  ::selection{background:var(--magenta);color:#05070a;}
+
+  /* ---------- ambient background ---------- */
+  .grid-bg{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:42px 42px;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, black 20%, transparent 75%);
+    opacity:.5;
+  }
+  .scanlines{
+    position:fixed;inset:0;z-index:2;pointer-events:none;
+    background:repeating-linear-gradient(
+      to bottom, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px,
+      rgba(0,0,0,.18) 3px, rgba(0,0,0,0) 4px
+    );
+    opacity:.35;
+    mix-blend-mode:overlay;
+  }
+  .vignette{
+    position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(ellipse at center, transparent 40%, var(--bg-0) 95%);
+  }
+
+  section{position:relative;z-index:3;}
+
+  /* ---------- nav ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 5%;
+    background:rgba(5,7,10,.75);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .logo{
+    font-family:var(--font-display);
+    font-weight:800;font-size:1.05rem;letter-spacing:.12em;
+    color:var(--cyan); text-shadow:var(--glow-cyan);
+    display:flex;align-items:center;gap:10px;
+  }
+  .logo svg{width:26px;height:26px;flex-shrink:0;filter:drop-shadow(0 0 5px rgba(77,253,214,.6));}
+  .navlinks{display:flex;gap:34px;list-style:none;font-size:.82rem;letter-spacing:.08em;}
+  .navlinks a{
+    color:var(--text-dim);text-decoration:none;text-transform:uppercase;
+    position:relative;transition:color .25s;
+  }
+  .navlinks a::before{content:'./';color:var(--magenta);opacity:0;transition:opacity .2s;}
+  .navlinks a:hover{color:var(--cyan);}
+  .navlinks a:hover::before{opacity:1;}
+  @media (max-width:640px){ .navlinks{gap:18px;font-size:.7rem;} }
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:120px 20px 60px;
+  }
+  .eyebrow{
+    font-size:.78rem;color:var(--magenta);letter-spacing:.35em;text-transform:uppercase;
+    margin-bottom:22px;text-shadow:var(--glow-magenta);
+  }
+  .glitch-title{
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:clamp(2.6rem, 9vw, 6.2rem);
+    letter-spacing:.03em;
+    color:#eafffa;
+    position:relative;
+    text-shadow:0 0 18px rgba(77,253,214,.35);
+  }
+  .glitch-title .layer{
+    position:absolute;top:0;left:0;width:100%;
+    clip-path:inset(0 0 0 0);
+  }
+  .glitch-title .layer.cy{color:var(--cyan);opacity:.7;}
+  .glitch-title .layer.mg{color:var(--magenta);opacity:.7;}
+  .tagline{
+    margin-top:28px;font-size:1.05rem;color:var(--text-dim);
+    min-height:1.6em;
+  }
+  .tagline .caret{color:var(--cyan);animation:blink 1s steps(1) infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  .cta-row{margin-top:44px;display:flex;gap:18px;flex-wrap:wrap;justify-content:center;}
+  .btn{
+    font-family:var(--font-mono);font-size:.85rem;letter-spacing:.05em;
+    padding:13px 28px;border:1px solid var(--cyan);color:var(--cyan);
+    background:rgba(77,253,214,.05);text-decoration:none;
+    transition:all .25s; text-transform:uppercase;
+  }
+  .btn:hover{background:var(--cyan);color:#05070a;box-shadow:var(--glow-cyan);}
+  .btn.alt{border-color:var(--magenta);color:var(--magenta);background:rgba(255,59,141,.05);}
+  .btn.alt:hover{background:var(--magenta);color:#05070a;box-shadow:var(--glow-magenta);}
+
+  .scroll-hint{
+    position:absolute;bottom:28px;font-size:.7rem;color:var(--text-dim);
+    letter-spacing:.2em;text-transform:uppercase;
+  }
+
+  /* ---------- section shell ---------- */
+  .wrap{max-width:980px;margin:0 auto;padding:120px 24px;}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:44px;}
+  .sec-num{color:var(--magenta);font-size:.85rem;}
+  .sec-title{
+    font-family:var(--font-display);font-weight:700;font-size:1.6rem;
+    letter-spacing:.06em;text-transform:uppercase;color:#eafffa;
+  }
+  .sec-rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent);}
+
+  /* ---------- terminal window ---------- */
+  .term{
+    background:var(--panel);border:1px solid var(--line);
+    box-shadow:0 0 40px rgba(0,0,0,.4);
+  }
+  .term-bar{
+    display:flex;align-items:center;gap:8px;padding:10px 14px;
+    border-bottom:1px solid var(--line); background:rgba(255,255,255,.02);
+  }
+  .dot{width:10px;height:10px;border-radius:50%;}
+  .dot.r{background:#ff5f57;} .dot.y{background:#febc2e;} .dot.g{background:#28c840;}
+  .term-title{margin-left:10px;font-size:.75rem;color:var(--text-dim);}
+  .term-body{padding:26px 28px;font-size:.92rem;color:var(--text);}
+  .term-body p{margin-bottom:14px;}
+  .term-body .prompt{color:var(--cyan);}
+  .tag-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;}
+  .tag{
+    font-size:.72rem;padding:5px 12px;border:1px solid var(--line);
+    color:var(--cyan);letter-spacing:.05em;
+  }
+
+  /* ---------- projects grid ---------- */
+  .proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;}
+  .proj-card{
+    background:var(--panel);border:1px solid var(--line);
+    padding:24px;position:relative;overflow:hidden;
+    transition:transform .25s, border-color .25s, box-shadow .25s;
+    display:flex;flex-direction:column;gap:12px;text-decoration:none;color:inherit;
+  }
+  .proj-card::before{
+    content:'';position:absolute;top:0;left:0;width:100%;height:2px;
+    background:linear-gradient(90deg,var(--cyan),var(--magenta));
+    transform:scaleX(0);transform-origin:left;transition:transform .3s;
+  }
+  .proj-card:hover{transform:translateY(-4px);border-color:var(--cyan);box-shadow:var(--glow-cyan);}
+  .proj-card:hover::before{transform:scaleX(1);}
+  .proj-idx{font-size:.72rem;color:var(--magenta);}
+  .proj-name{font-family:var(--font-display);font-size:1.05rem;letter-spacing:.03em;color:#eafffa;}
+  .proj-desc{font-size:.84rem;color:var(--text-dim);flex:1;}
+  .proj-tags{display:flex;flex-wrap:wrap;gap:8px;font-size:.68rem;}
+  .proj-tags span{color:var(--cyan);opacity:.85;}
+  .proj-link{font-size:.75rem;color:var(--cyan);margin-top:6px;}
+
+  /* ---------- contact ---------- */
+  .contact-list{display:flex;flex-direction:column;gap:2px;}
+  .contact-row{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 22px;border:1px solid var(--line);background:var(--panel);
+    text-decoration:none;color:var(--text);transition:all .2s;
+  }
+  .contact-row + .contact-row{border-top:none;}
+  .contact-row:hover{background:rgba(77,253,214,.06);color:var(--cyan);padding-left:30px;}
+  .contact-row span.k{color:var(--magenta);}
+  .contact-row span.v{color:var(--text-dim);font-size:.85rem;}
+  .contact-row:hover span.v{color:var(--cyan);}
+
+  /* ---------- footer / status bar ---------- */
+  footer{
+    position:relative;z-index:3;border-top:1px solid var(--line);
+    padding:18px 5%;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    font-size:.7rem;color:var(--text-dim);letter-spacing:.05em;
+  }
+  footer .dotlive{color:var(--cyan);}
+  footer .dotlive::before{content:'●';margin-right:6px;animation:blink 1.4s steps(1) infinite;}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="vignette"></div>
+<div class="scanlines"></div>
+
+<nav>
+  <div class="logo">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 15 L45 45 L35 45 L15 60 Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M80 15 L55 45 L65 45 L85 60 Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M50 40 C30 40 20 60 25 78 C32 90 68 90 75 78 C80 60 70 40 50 40 Z" stroke="currentColor" stroke-width="4"/>
+      <circle cx="42" cy="62" r="3" fill="currentColor"/>
+      <circle cx="58" cy="62" r="3" fill="currentColor"/>
+    </svg>
+    jacyfox-06
+  </div>
+  <ul class="navlinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow">// system online</div>
+  <h1 class="glitch-title" id="glitchTitle">JACYFOX-06</h1>
+  <div class="tagline"><span class="prompt">$</span> <span id="typewriter"></span><span class="caret">_</span></div>
+  <div class="cta-row">
+    <a href="#projects" class="btn">View Projects</a>
+    <a href="#contact" class="btn alt">Get In Touch</a>
+  </div>
+  <div class="scroll-hint">scroll ↓</div>
+</section>
+
+<section id="about">
+  <div class="wrap reveal">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <span class="sec-title">About</span>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="term">
+      <div class="term-bar">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="term-title">whoami.sh</span>
+      </div>
+      <div class="term-body">
+        <p><span class="prompt">&gt;</span> Hey, I'm <strong>jacyfox-06</strong> — <!-- EDIT: one-line identity, e.g. "a self-taught developer who likes breaking things to understand them." -->a developer who likes breaking things to understand how they work.</p>
+        <p><!-- EDIT: 2-3 sentences about your background, interests, what you're learning/building right now. -->I build small tools, tinker with systems I probably shouldn't, and I'm currently leveling up in [your stack / language / focus area]. This site is my corner of the internet — projects below are the proof.</p>
+        <div class="tag-row">
+          <!-- EDIT: swap these for your real stack -->
+          <span class="tag">Python</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Linux</span>
+          <span class="tag">Git</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap reveal">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <span class="sec-title">Projects</span>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="proj-grid">
+
+      <!-- EDIT: duplicate this block for each project -->
+      <a class="proj-card" href="#" target="_blank" rel="noopener">
+        <span class="proj-idx">PRJ_01</span>
+        <span class="proj-name">Project One</span>
+        <span class="proj-desc">One or two sentences on what this project does and why you built it.</span>
+        <div class="proj-tags"><span>#python</span><span>#cli</span></div>
+        <span class="proj-link">view repo →</span>
+      </a>
+
+      <a class="proj-card" href="#" target="_blank" rel="noopener">
+        <span class="proj-idx">PRJ_02</span>
+        <span class="proj-name">Project Two</span>
+        <span class="proj-desc">One or two sentences on what this project does and why you built it.</span>
+        <div class="proj-tags"><span>#javascript</span><span>#web</span></div>
+        <span class="proj-link">view repo →</span>
+      </a>
+
+      <a class="proj-card" href="#" target="_blank" rel="noopener">
+        <span class="proj-idx">PRJ_03</span>
+        <span class="proj-name">Project Three</span>
+        <span class="proj-desc">One or two sentences on what this project does and why you built it.</span>
+        <div class="proj-tags"><span>#tooling</span><span>#automation</span></div>
+        <span class="proj-link">view repo →</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap reveal">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <span class="sec-title">Contact</span>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="contact-list">
+      <!-- EDIT: replace hrefs with your real links -->
+      <a class="contact-row" href="https://github.com/jacyfox-06" target="_blank" rel="noopener">
+        <span class="k">github</span><span class="v">github.com/jacyfox-06 →</span>
+      </a>
+      <a class="contact-row" href="mailto:you@example.com">
+        <span class="k">email</span><span class="v">you@example.com →</span>
+      </a>
+      <a class="contact-row" href="#">
+        <span class="k">linkedin</span><span class="v">add your link →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© <span id="year"></span> jacyfox-06</span>
+  <span class="dotlive">system status: nominal · uptime <span id="uptime">00:00:00</span></span>
+  <span id="clock">--:--:--</span>
+</footer>
+
+<script>
+  // year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // live clock (UTC, HUD-style)
+  const clockEl = document.getElementById('clock');
+  function tickClock(){
+    const d = new Date();
+    clockEl.textContent = d.toUTCString().split(' ')[4] + ' UTC';
+  }
+  tickClock(); setInterval(tickClock, 1000);
+
+  // fake uptime counter since page load
+  const start = Date.now();
+  const upEl = document.getElementById('uptime');
+  function tickUptime(){
+    const s = Math.floor((Date.now()-start)/1000);
+    const hh = String(Math.floor(s/3600)).padStart(2,'0');
+    const mm = String(Math.floor((s%3600)/60)).padStart(2,'0');
+    const ss = String(s%60).padStart(2,'0');
+    upEl.textContent = `${hh}:${mm}:${ss}`;
+  }
+  setInterval(tickUptime, 1000);
+
+  // typewriter tagline
+  const phrases = [
+    'building things that probably shouldn\'t work.',
+    'currently learning: [add your stack].',
+    'status: compiling ambition.',
+    'let\'s build something.'
+  ];
+  const twEl = document.getElementById('typewriter');
+  let pI=0, cI=0, deleting=false;
+  function typeLoop(){
+    const full = phrases[pI];
+    if(!deleting){
+      cI++;
+      twEl.textContent = full.slice(0,cI);
+      if(cI === full.length){ deleting = true; setTimeout(typeLoop, 1400); return; }
+    } else {
+      cI--;
+      twEl.textContent = full.slice(0,cI);
+      if(cI === 0){ deleting = false; pI = (pI+1)%phrases.length; }
+    }
+    setTimeout(typeLoop, deleting ? 30 : 55);
+  }
+  typeLoop();
+
+  // glitch title: build cyan/magenta offset layers + periodic scramble-in
+  const titleEl = document.getElementById('glitchTitle');
+  const original = titleEl.textContent;
+  const cy = document.createElement('span'); cy.className='layer cy'; cy.textContent = original; cy.setAttribute('aria-hidden','true');
+  const mg = document.createElement('span'); mg.className='layer mg'; mg.textContent = original; mg.setAttribute('aria-hidden','true');
+  titleEl.appendChild(cy); titleEl.appendChild(mg);
+
+  function glitchBurst(){
+    const dx1 = (Math.random()*6-3).toFixed(1), dx2 = (Math.random()*6-3).toFixed(1);
+    cy.style.transform = `translate(${dx1}px,0)`;
+    mg.style.transform = `translate(${dx2}px,0)`;
+    setTimeout(()=>{ cy.style.transform='translate(0,0)'; mg.style.transform='translate(0,0)'; }, 120);
+  }
+  setInterval(glitchBurst, 2600);
+
+  // scramble-decrypt on load
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&';
+  function decryptIn(el, text){
+    let frame = 0;
+    const totalFrames = 18;
+    const iv = setInterval(()=>{
+      let out='';
+      for(let i=0;i<text.length;i++){
+        if(text[i]===' '){out+=' ';continue;}
+        const reveal = frame > (i * (totalFrames/text.length));
+        out += reveal ? text[i] : chars[Math.floor(Math.random()*chars.length)];
+      }
+      el.childNodes[0].nodeValue !== undefined ? (el.childNodes[0].nodeValue = out) : null;
+      frame++;
+      if(frame > totalFrames + text.length){ el.childNodes[0].nodeValue = text; clearInterval(iv); }
+    }, 45);
+  }
+  // set first text node explicitly, then animate
+  titleEl.childNodes[0].nodeValue = original;
+  decryptIn(titleEl, original);
+
+  // reveal-on-scroll
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+  }, {threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+
+</body>
+</html>
