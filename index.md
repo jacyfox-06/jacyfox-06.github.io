@@ -94,7 +94,7 @@ end
 
 ### Small image
 
-![Octocat]([https://github.com/jacyfox-06/jacyfox-06.github.io/imges/fox.jpg])
+![Octocat]([https://github.com/jacyfox-06/jacyfox-06.github.io/images/Fox_logo.png])
 
 ### Large image
 
