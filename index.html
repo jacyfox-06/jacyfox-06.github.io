@@ -269,7 +269,6 @@
         <p><span class="prompt">&gt;</span> Hey, I'm <strong>jacyfox-06</strong> — a tech enthusiast who is passionned by cybersecurity, AI and projects. I like breaking things to understand how they work.</p>
         <p>I build small tools, tinker with services I probably shouldn't, and I'm currently studying to get into cyber. This site is my corner of the internet — projects below are the proof.</p>
         <div class="tag-row">
-          <!-- EDIT: swap these for your real stack -->
           <span class="tag">Local AI</span>
           <span class="tag">Automation</span>
           <span class="tag">Cybersecurity</span>
@@ -289,7 +288,7 @@
     </div>
     <div class="proj-grid">
 
-      <!-- EDIT: duplicate this block for each project -->
+      <!-- project block -->
       <a class="proj-card" href="#" target="_blank" rel="noopener">
         <span class="proj-idx">PRJ_01</span>
         <span class="proj-name">Network Failure Simulator</span>
@@ -358,7 +357,7 @@
   }
   tickClock(); setInterval(tickClock, 1000);
 
-  // fake uptime counter since page load
+  // uptime counter since page load
   const start = Date.now();
   const upEl = document.getElementById('uptime');
   function tickUptime(){
@@ -372,10 +371,12 @@
 
   // typewriter tagline
   const phrases = [
-    'building things that probably shouldn\'t work.',
-    'currently learning: [add your stack].',
-    'status: compiling ambition.',
-    'let\'s build something.'
+    'Thinking about running local LLMs on limited hardware...',
+    'currently learning: AI Integrations and workflows.',
+    'status: tinkering with scripts.',
+    'Doing some math for school.'
+    'Let\'s build something new.'
+    'My Favorite mottos are "Keep the Dream Alive" & "Never stop learning"'
   ];
   const twEl = document.getElementById('typewriter');
   let pI=0, cI=0, deleting=false;
