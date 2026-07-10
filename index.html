@@ -188,7 +188,7 @@
   .proj-tags span{color:var(--cyan);opacity:.85;}
   .proj-link{font-size:.75rem;color:var(--cyan);margin-top:6px;}
 
-  /* ---------- servcices description grid ---------- */
+  /* ---------- services description grid ---------- */
   .services-log{margin-top:26px;cursor:pointer;}
   .services-log summary{list-style:none;cursor:pointer;user-select:none;}
   .services-log summary::-webkit-details-marker{display:none;}
@@ -197,6 +197,23 @@
   }
   .services-log[open] .summary-chevron{transform:rotate(90deg);}
   .services-log summary:hover .term-title{color:var(--cyan);}
+  .services-log .term-body{
+  padding:18px 22px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px 28px;
+}
+.services-log .term-body p{
+  margin-bottom:0;
+  font-size:.8rem;
+  line-height:1.5;
+}
+.services-log .term-body p:first-child,
+.services-log .term-body p:last-child{
+  grid-column:1 / -1;
+}
+.services-log .term-body p:first-child{color:var(--text-dim);margin-bottom:8px;}
+.services-log .term-body p:last-child{margin-top:8px;}
 
   /* ---------- contact ---------- */
   .contact-list{display:flex;flex-direction:column;gap:2px;}
@@ -350,6 +367,8 @@
     </div>
   </div>
 </section>
+  
+<div class="wrap" style="padding-top:0;">
   <details class="term services-log">
   <summary class="term-bar">
     <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
@@ -363,9 +382,11 @@
     <p><span class="prompt">›</span> <strong>Netdata Cloud</strong> — Real-time VPS metrics dashboard with per-service alerting and historical trends.</p>
     <p><span class="prompt">›</span> <strong>OpenWebUI</strong> — Self-hosted ChatGPT-style frontend for local Ollama models.</p>
     <p><span class="prompt">›</span> <strong>Flowsint</strong> — OSINT research and investigation platform for mapping digital footprints.</p>
-    <p style="margin-top:16px;"><span class="prompt">$</span> <span style="color:var(--text-dim)">+ 15 more services running — monitoring, productivity, privacy, remote access…</span></p>
-  </div>
-</details>
+    <p><span class="prompt">$</span> <span style="color:var(--text-dim)">+ 15 more services running — monitoring, productivity, privacy, remote access…</span></p>
+  </details>
+</div>
+
+<section id="contact">
 
 <section id="contact">
   <div class="wrap reveal">
