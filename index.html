@@ -188,6 +188,16 @@
   .proj-tags span{color:var(--cyan);opacity:.85;}
   .proj-link{font-size:.75rem;color:var(--cyan);margin-top:6px;}
 
+  /* ---------- servcices description grid ---------- */
+  .services-log{margin-top:26px;cursor:pointer;}
+  .services-log summary{list-style:none;cursor:pointer;user-select:none;}
+  .services-log summary::-webkit-details-marker{display:none;}
+  .services-log .summary-chevron{
+    margin-left:auto;color:var(--cyan);transition:transform .25s;font-size:.8rem;
+  }
+  .services-log[open] .summary-chevron{transform:rotate(90deg);}
+  .services-log summary:hover .term-title{color:var(--cyan);}
+
   /* ---------- contact ---------- */
   .contact-list{display:flex;flex-direction:column;gap:2px;}
   .contact-row{
